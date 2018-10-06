@@ -1,0 +1,427 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="damladbaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="damladbaModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="damladbaModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="t_cozum" EntityType="damladbaModel.Store.t_cozum" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="t_departman" EntityType="damladbaModel.Store.t_departman" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="t_hata" EntityType="damladbaModel.Store.t_hata" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="t_hatatur" EntityType="damladbaModel.Store.t_hatatur" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="t_personel" EntityType="damladbaModel.Store.t_personel" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_t_cozum_t_hata" Association="damladbaModel.Store.FK_t_cozum_t_hata">
+            <End Role="t_hata" EntitySet="t_hata" />
+            <End Role="t_cozum" EntitySet="t_cozum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_cozum_t_personel" Association="damladbaModel.Store.FK_t_cozum_t_personel">
+            <End Role="t_personel" EntitySet="t_personel" />
+            <End Role="t_cozum" EntitySet="t_cozum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_hata_t_hatatur" Association="damladbaModel.Store.FK_t_hata_t_hatatur">
+            <End Role="t_hatatur" EntitySet="t_hatatur" />
+            <End Role="t_hata" EntitySet="t_hata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_hata_t_personel" Association="damladbaModel.Store.FK_t_hata_t_personel">
+            <End Role="t_personel" EntitySet="t_personel" />
+            <End Role="t_hata" EntitySet="t_hata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_personel_t_departman" Association="damladbaModel.Store.FK_t_personel_t_departman">
+            <End Role="t_departman" EntitySet="t_departman" />
+            <End Role="t_personel" EntitySet="t_personel" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="t_cozum">
+          <Key>
+            <PropertyRef Name="cozum_id" />
+          </Key>
+          <Property Name="cozum_id" Type="int" Nullable="false" />
+          <Property Name="cozum_hata_id" Type="int" Nullable="false" />
+          <Property Name="cozum_hatacozen" Type="int" Nullable="false" />
+          <Property Name="cozum_aciklama" Type="varchar" MaxLength="50" />
+          <Property Name="cozum_kontrol" Type="varchar" Nullable="false" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="t_departman">
+          <Key>
+            <PropertyRef Name="dept_id" />
+          </Key>
+          <Property Name="dept_id" Type="int" Nullable="false" />
+          <Property Name="departman_ad" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="t_hata">
+          <Key>
+            <PropertyRef Name="hata_id" />
+          </Key>
+          <Property Name="hata_id" Type="int" Nullable="false" />
+          <Property Name="hata_bulan" Type="int" Nullable="false" />
+          <Property Name="hata_tur_id" Type="int" Nullable="false" />
+          <Property Name="hata_aciklama" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="t_hatatur">
+          <Key>
+            <PropertyRef Name="hatatur_id" />
+          </Key>
+          <Property Name="hatatur_id" Type="int" Nullable="false" />
+          <Property Name="hatatur_adi" Type="varchar" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="t_personel">
+          <Key>
+            <PropertyRef Name="personel_id" />
+          </Key>
+          <Property Name="personel_id" Type="int" Nullable="false" />
+          <Property Name="personel_ad" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="personel_dept" Type="int" Nullable="false" />
+          <Property Name="personel_tel" Type="varchar" MaxLength="50" />
+          <Property Name="personel_tc" Type="varchar" MaxLength="11" />
+          <Property Name="personel_adres" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_t_cozum_t_hata">
+          <End Role="t_hata" Type="damladbaModel.Store.t_hata" Multiplicity="1" />
+          <End Role="t_cozum" Type="damladbaModel.Store.t_cozum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_hata">
+              <PropertyRef Name="hata_id" />
+            </Principal>
+            <Dependent Role="t_cozum">
+              <PropertyRef Name="cozum_hata_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_cozum_t_personel">
+          <End Role="t_personel" Type="damladbaModel.Store.t_personel" Multiplicity="1" />
+          <End Role="t_cozum" Type="damladbaModel.Store.t_cozum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_personel">
+              <PropertyRef Name="personel_id" />
+            </Principal>
+            <Dependent Role="t_cozum">
+              <PropertyRef Name="cozum_hatacozen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_hata_t_hatatur">
+          <End Role="t_hatatur" Type="damladbaModel.Store.t_hatatur" Multiplicity="1" />
+          <End Role="t_hata" Type="damladbaModel.Store.t_hata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_hatatur">
+              <PropertyRef Name="hatatur_id" />
+            </Principal>
+            <Dependent Role="t_hata">
+              <PropertyRef Name="hata_tur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_hata_t_personel">
+          <End Role="t_personel" Type="damladbaModel.Store.t_personel" Multiplicity="1" />
+          <End Role="t_hata" Type="damladbaModel.Store.t_hata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_personel">
+              <PropertyRef Name="personel_id" />
+            </Principal>
+            <Dependent Role="t_hata">
+              <PropertyRef Name="hata_bulan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_personel_t_departman">
+          <End Role="t_departman" Type="damladbaModel.Store.t_departman" Multiplicity="1" />
+          <End Role="t_personel" Type="damladbaModel.Store.t_personel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_departman">
+              <PropertyRef Name="dept_id" />
+            </Principal>
+            <Dependent Role="t_personel">
+              <PropertyRef Name="personel_dept" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="damladbaModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="damladbaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="damladbaModel.sysdiagrams" />
+          <EntitySet Name="t_cozum" EntityType="damladbaModel.t_cozum" />
+          <EntitySet Name="t_departman" EntityType="damladbaModel.t_departman" />
+          <EntitySet Name="t_hata" EntityType="damladbaModel.t_hata" />
+          <EntitySet Name="t_hatatur" EntityType="damladbaModel.t_hatatur" />
+          <EntitySet Name="t_personel" EntityType="damladbaModel.t_personel" />
+          <AssociationSet Name="FK_t_cozum_t_hata" Association="damladbaModel.FK_t_cozum_t_hata">
+            <End Role="t_hata" EntitySet="t_hata" />
+            <End Role="t_cozum" EntitySet="t_cozum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_cozum_t_personel" Association="damladbaModel.FK_t_cozum_t_personel">
+            <End Role="t_personel" EntitySet="t_personel" />
+            <End Role="t_cozum" EntitySet="t_cozum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_personel_t_departman" Association="damladbaModel.FK_t_personel_t_departman">
+            <End Role="t_departman" EntitySet="t_departman" />
+            <End Role="t_personel" EntitySet="t_personel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_hata_t_hatatur" Association="damladbaModel.FK_t_hata_t_hatatur">
+            <End Role="t_hatatur" EntitySet="t_hatatur" />
+            <End Role="t_hata" EntitySet="t_hata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_hata_t_personel" Association="damladbaModel.FK_t_hata_t_personel">
+            <End Role="t_personel" EntitySet="t_personel" />
+            <End Role="t_hata" EntitySet="t_hata" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="t_cozum">
+          <Key>
+            <PropertyRef Name="cozum_id" />
+          </Key>
+          <Property Name="cozum_id" Type="Int32" Nullable="false" />
+          <Property Name="cozum_hata_id" Type="Int32" Nullable="false" />
+          <Property Name="cozum_hatacozen" Type="Int32" Nullable="false" />
+          <Property Name="cozum_aciklama" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="cozum_kontrol" Type="String" Nullable="false" MaxLength="5" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="t_hata" Relationship="damladbaModel.FK_t_cozum_t_hata" FromRole="t_cozum" ToRole="t_hata" />
+          <NavigationProperty Name="t_personel" Relationship="damladbaModel.FK_t_cozum_t_personel" FromRole="t_cozum" ToRole="t_personel" />
+        </EntityType>
+        <EntityType Name="t_departman">
+          <Key>
+            <PropertyRef Name="dept_id" />
+          </Key>
+          <Property Name="dept_id" Type="Int32" Nullable="false" />
+          <Property Name="departman_ad" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="t_personel" Relationship="damladbaModel.FK_t_personel_t_departman" FromRole="t_departman" ToRole="t_personel" />
+        </EntityType>
+        <EntityType Name="t_hata">
+          <Key>
+            <PropertyRef Name="hata_id" />
+          </Key>
+          <Property Name="hata_id" Type="Int32" Nullable="false" />
+          <Property Name="hata_bulan" Type="Int32" Nullable="false" />
+          <Property Name="hata_tur_id" Type="Int32" Nullable="false" />
+          <Property Name="hata_aciklama" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="t_cozum" Relationship="damladbaModel.FK_t_cozum_t_hata" FromRole="t_hata" ToRole="t_cozum" />
+          <NavigationProperty Name="t_hatatur" Relationship="damladbaModel.FK_t_hata_t_hatatur" FromRole="t_hata" ToRole="t_hatatur" />
+          <NavigationProperty Name="t_personel" Relationship="damladbaModel.FK_t_hata_t_personel" FromRole="t_hata" ToRole="t_personel" />
+        </EntityType>
+        <EntityType Name="t_hatatur">
+          <Key>
+            <PropertyRef Name="hatatur_id" />
+          </Key>
+          <Property Name="hatatur_id" Type="Int32" Nullable="false" />
+          <Property Name="hatatur_adi" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="t_hata" Relationship="damladbaModel.FK_t_hata_t_hatatur" FromRole="t_hatatur" ToRole="t_hata" />
+        </EntityType>
+        <EntityType Name="t_personel">
+          <Key>
+            <PropertyRef Name="personel_id" />
+          </Key>
+          <Property Name="personel_id" Type="Int32" Nullable="false" />
+          <Property Name="personel_ad" Type="String" Nullable="false" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="personel_dept" Type="Int32" Nullable="false" />
+          <Property Name="personel_tel" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="personel_tc" Type="String" MaxLength="11" Unicode="false" FixedLength="false" />
+          <Property Name="personel_adres" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="t_cozum" Relationship="damladbaModel.FK_t_cozum_t_personel" FromRole="t_personel" ToRole="t_cozum" />
+          <NavigationProperty Name="t_departman" Relationship="damladbaModel.FK_t_personel_t_departman" FromRole="t_personel" ToRole="t_departman" />
+          <NavigationProperty Name="t_hata" Relationship="damladbaModel.FK_t_hata_t_personel" FromRole="t_personel" ToRole="t_hata" />
+        </EntityType>
+        <Association Name="FK_t_cozum_t_hata">
+          <End Role="t_hata" Type="damladbaModel.t_hata" Multiplicity="1" />
+          <End Role="t_cozum" Type="damladbaModel.t_cozum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_hata">
+              <PropertyRef Name="hata_id" />
+            </Principal>
+            <Dependent Role="t_cozum">
+              <PropertyRef Name="cozum_hata_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_cozum_t_personel">
+          <End Role="t_personel" Type="damladbaModel.t_personel" Multiplicity="1" />
+          <End Role="t_cozum" Type="damladbaModel.t_cozum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_personel">
+              <PropertyRef Name="personel_id" />
+            </Principal>
+            <Dependent Role="t_cozum">
+              <PropertyRef Name="cozum_hatacozen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_personel_t_departman">
+          <End Role="t_departman" Type="damladbaModel.t_departman" Multiplicity="1" />
+          <End Role="t_personel" Type="damladbaModel.t_personel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_departman">
+              <PropertyRef Name="dept_id" />
+            </Principal>
+            <Dependent Role="t_personel">
+              <PropertyRef Name="personel_dept" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_hata_t_hatatur">
+          <End Role="t_hatatur" Type="damladbaModel.t_hatatur" Multiplicity="1" />
+          <End Role="t_hata" Type="damladbaModel.t_hata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_hatatur">
+              <PropertyRef Name="hatatur_id" />
+            </Principal>
+            <Dependent Role="t_hata">
+              <PropertyRef Name="hata_tur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_hata_t_personel">
+          <End Role="t_personel" Type="damladbaModel.t_personel" Multiplicity="1" />
+          <End Role="t_hata" Type="damladbaModel.t_hata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_personel">
+              <PropertyRef Name="personel_id" />
+            </Principal>
+            <Dependent Role="t_hata">
+              <PropertyRef Name="hata_bulan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="damladbaModelStoreContainer" CdmEntityContainer="damladbaEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="damladbaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_cozum">
+            <EntityTypeMapping TypeName="damladbaModel.t_cozum">
+              <MappingFragment StoreEntitySet="t_cozum">
+                <ScalarProperty Name="cozum_id" ColumnName="cozum_id" />
+                <ScalarProperty Name="cozum_hata_id" ColumnName="cozum_hata_id" />
+                <ScalarProperty Name="cozum_hatacozen" ColumnName="cozum_hatacozen" />
+                <ScalarProperty Name="cozum_aciklama" ColumnName="cozum_aciklama" />
+                <ScalarProperty Name="cozum_kontrol" ColumnName="cozum_kontrol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_departman">
+            <EntityTypeMapping TypeName="damladbaModel.t_departman">
+              <MappingFragment StoreEntitySet="t_departman">
+                <ScalarProperty Name="dept_id" ColumnName="dept_id" />
+                <ScalarProperty Name="departman_ad" ColumnName="departman_ad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_hata">
+            <EntityTypeMapping TypeName="damladbaModel.t_hata">
+              <MappingFragment StoreEntitySet="t_hata">
+                <ScalarProperty Name="hata_id" ColumnName="hata_id" />
+                <ScalarProperty Name="hata_bulan" ColumnName="hata_bulan" />
+                <ScalarProperty Name="hata_tur_id" ColumnName="hata_tur_id" />
+                <ScalarProperty Name="hata_aciklama" ColumnName="hata_aciklama" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_hatatur">
+            <EntityTypeMapping TypeName="damladbaModel.t_hatatur">
+              <MappingFragment StoreEntitySet="t_hatatur">
+                <ScalarProperty Name="hatatur_id" ColumnName="hatatur_id" />
+                <ScalarProperty Name="hatatur_adi" ColumnName="hatatur_adi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_personel">
+            <EntityTypeMapping TypeName="damladbaModel.t_personel">
+              <MappingFragment StoreEntitySet="t_personel">
+                <ScalarProperty Name="personel_id" ColumnName="personel_id" />
+                <ScalarProperty Name="personel_ad" ColumnName="personel_ad" />
+                <ScalarProperty Name="personel_dept" ColumnName="personel_dept" />
+                <ScalarProperty Name="personel_tel" ColumnName="personel_tel" />
+                <ScalarProperty Name="personel_tc" ColumnName="personel_tc" />
+                <ScalarProperty Name="personel_adres" ColumnName="personel_adres" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="hys" ZoomLevel="85">
+        <EntityTypeShape EntityType="damladbaModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="7.5" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="damladbaModel.t_cozum" Width="1.5" PointX="5.25" PointY="3.375" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="damladbaModel.t_departman" Width="1.5" PointX="0.75" PointY="3.75" Height="1.5956835937499991" IsExpanded="true" />
+        <EntityTypeShape EntityType="damladbaModel.t_hata" Width="1.5" PointX="8.25" PointY="3.375" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="damladbaModel.t_hatatur" Width="1.5" PointX="6" PointY="0.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="damladbaModel.t_personel" Width="1.5" PointX="3" PointY="3.125" Height="2.7494921874999996" IsExpanded="true" />
+        <AssociationConnector Association="damladbaModel.FK_t_cozum_t_hata" ManuallyRouted="false">
+          <ConnectorPoint PointX="8.25" PointY="4.5574446614583328" />
+          <ConnectorPoint PointX="6.75" PointY="4.5574446614583328" />
+        </AssociationConnector>
+        <AssociationConnector Association="damladbaModel.FK_t_cozum_t_personel" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="4.5574446614583328" />
+          <ConnectorPoint PointX="5.25" PointY="4.5574446614583328" />
+        </AssociationConnector>
+        <AssociationConnector Association="damladbaModel.FK_t_personel_t_departman" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.547841796875" />
+          <ConnectorPoint PointX="3" PointY="4.547841796875" />
+        </AssociationConnector>
+        <AssociationConnector Association="damladbaModel.FK_t_hata_t_hatatur" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.5" PointY="1.5478417968749998" />
+          <ConnectorPoint PointX="9" PointY="1.5478417968749998" />
+          <ConnectorPoint PointX="9" PointY="3.375" />
+        </AssociationConnector>
+        <AssociationConnector Association="damladbaModel.FK_t_hata_t_personel" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="5.8744921875" />
+          <ConnectorPoint PointX="4.875" PointY="6.2494921875" />
+          <ConnectorPoint PointX="4.875" PointY="6.1148893229166656" />
+          <ConnectorPoint PointX="7.875" PointY="6.1148893229166656" />
+          <ConnectorPoint PointX="8.25" PointY="5.7398893229166656" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
